@@ -22,6 +22,8 @@ app = dash.Dash(
     ],
 )
 
+app._favicon = ("assets/favicon.ico")
+
 navbar = dbc.NavbarSimple(
     dbc.DropdownMenu(
         [
@@ -49,5 +51,4 @@ if __name__ == "__main__":
         debug=False,
         dev_tools_ui=False,
         dev_tools_silence_routes_logging=True,
-        port=8000,
     )
