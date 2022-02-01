@@ -15,6 +15,7 @@ import dash_bootstrap_components as dbc
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/layout/
 # https://hackerthemes.com/bootstrap-cheatsheet/
 # https://dash.plotly.com/live-updates
+# https://community.plotly.com/t/display-correct-time-in-browsers-timezone/49789/2
 
 app = dash.Dash(
     __name__,
@@ -47,12 +48,14 @@ app.layout = dbc.Container(
         navbar,
         dl.plugins.page_container,
         # html.Span(id="get-local-date-time", hidden=True),
-        dcc.Interval(id="interval-get-local-date-time", interval=1000),
+        dcc.Interval(id="interval-get-local-time", interval=1000),
+        dcc.Interval(id="interval-get-local-date", interval=1000),
+        dcc.Interval(id="interval-get-local-year", interval=1000),
         # html.H1(id="local-date-time"),
         # dcc.Interval(id="interval-local-date-time", interval=1000),
     ],
     fluid=True,
-    style={"font-size": "2vmin"},
+    style={"font-size": "1vmin"},
 )
 
 app.clientside_callback(
@@ -61,30 +64,55 @@ app.clientside_callback(
         const date = new Date();
         hour = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
         ampm = hour.split(' ')[1];
-        hour = String(hour.split(' ')[0]).padStart(2, '0');
+        hour = String(hour.split(' ')[0]);
         minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
         second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
-        month = date.toLocaleString('en-US', { month: 'short' });
-        dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
-        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(2, '0'));
-        year = date.toLocaleString('en-US', { year: 'numeric' });
 
         hm = '<span style="font-size: 15em;">' + hour + ':' + minute + '</span>';
         sm = '<span style="font-size: 10em;">:' + second + '</span>';
         ampm ='<span style="font-size: 4em; margin-left: .25em;">' + ampm + '</span>';
 
-        dayofweek = '<span style="font-size: 10em; line-height: .5em;">' + dayofweek + '</span>';
-        month = '<span style="font-size: 10em; margin-left: .5em;">' + month + '</span>';
-        day = '<span style="font-size: 10em; margin-left: .5em;">' + day + '</span>';
-        year = '<span style="font-size: 5em; margin-left: .5em;">' + year + '</span>';
-
-        document.getElementById("clock").innerHTML = hm + sm + ampm + '<br/>' + 
-                                                     dayofweek + month + day + year;
+        document.getElementById("time").innerHTML = hm + sm + ampm;
     }
     """,
-    Output("clock", "children"),
-    Input("interval-get-local-date-time", "n_intervals"),
+    Output("time", "children"),
+    Input("interval-get-local-time", "n_intervals"),
 )
+
+app.clientside_callback(
+    """
+    function(n) {          
+        const date = new Date();
+        month = date.toLocaleString('en-US', { month: 'short' });
+        dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
+        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(2, '0'));
+
+        dayofweek = '<span style="font-size: 10em;">' + dayofweek + '</span>';
+        month = '<span style="font-size: 10em; margin-left: .5em;">' + month + '</span>';
+        day = '<span style="font-size: 10em; margin-left: .5em;">' + day + '</span>';
+
+        document.getElementById("date").innerHTML = dayofweek + month + day;
+    }
+    """,
+    Output("date", "children"),
+    Input("interval-get-local-date", "n_intervals"),
+)
+
+app.clientside_callback(
+    """
+    function(n) {          
+        const date = new Date();
+        year = date.toLocaleString('en-US', { year: 'numeric' });
+
+        year = '<span style="font-size: 5em; text-align:center; margin-left: .5em;">' + year + '</span>';
+
+        document.getElementById("year").innerHTML = year;
+    }
+    """,
+    Output("year", "children"),
+    Input("interval-get-local-year", "n_intervals"),
+)
+
 
 if __name__ == "__main__":
     # app.run_server(debug=True)
