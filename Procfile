@@ -1,1 +1,1 @@
-web: gunicorn simpleweatherclock:server
+web: gunicorn app:server
