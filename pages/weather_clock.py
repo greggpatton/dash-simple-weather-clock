@@ -28,11 +28,11 @@ layout = html.Div(
             n_intervals=0,  # in milliseconds
         ),
         html.Div(id="clock", className="text-center"),
-        dcc.Interval(
-            id="interval-update-clock",
-            interval=1 * 1000,
-            n_intervals=0,  # in milliseconds
-        ),
+        # dcc.Interval(
+        #     id="interval-update-clock",
+        #     interval=1 * 1000,
+        #     n_intervals=0,  # in milliseconds
+        # ),
         html.Div(id="weather", className="text-center"),
         dcc.Interval(
             id="interval-update-weather",
@@ -55,29 +55,28 @@ def update_vshift(n):
         html.Div(style=style),
     ]
 
-
-@callback(
-    Output("clock", "children"), Input("interval-update-clock", "n_intervals")
-)
-def update_clock(n):        
-    return [
-        html.Span(f'{strftime("%I:%M").lstrip("0")}', style={"fontSize": "15em"}),
-        html.Span(f'{strftime(":%S")}', style={"fontSize": "10em"}),
-        html.Span(
-            f'{strftime("%p")}', style={"fontSize": "4em", "marginLeft": "0.25em"}
-        ),
-        html.Br(),
-        html.Span(f'{strftime("%a")}', style={"fontSize": "10em", "line-height": ".5em"}),
-        html.Span(
-            f'{strftime("%b")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
-        ),
-        html.Span(
-            f'{strftime("%d")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
-        ),
-        html.Span(
-            f'{strftime("%Y")}', style={"fontSize": "5em", "marginLeft": "0.5em"}
-        ),
-    ]
+# @callback(
+#     Output("clock", "children"), Input("interval-update-clock", "n_intervals")
+# )
+# def update_clock(n):        
+#     return [
+#         html.Span(f'{strftime("%I:%M").lstrip("0")}', style={"fontSize": "15em"}),
+#         html.Span(f'{strftime(":%S")}', style={"fontSize": "10em"}),
+#         html.Span(
+#             f'{strftime("%p")}', style={"fontSize": "4em", "marginLeft": "0.25em"}
+#         ),
+#         html.Br(),
+#         html.Span(f'{strftime("%a")}', style={"fontSize": "10em", "line-height": ".5em"}),
+#         html.Span(
+#             f'{strftime("%b")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
+#         ),
+#         html.Span(
+#             f'{strftime("%d")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
+#         ),
+#         html.Span(
+#             f'{strftime("%Y")}', style={"fontSize": "5em", "marginLeft": "0.5em"}
+#         ),
+#     ]
 
 @callback(
     Output("weather", "children"), Input("interval-update-weather", "n_intervals")

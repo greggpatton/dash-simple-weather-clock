@@ -1,6 +1,9 @@
 from time import strftime
 
+import flask
+
 import dash
+from dash import html, dcc, Input, Output
 
 import dash_labs as dl
 
@@ -40,9 +43,47 @@ navbar = dbc.NavbarSimple(
 )
 
 app.layout = dbc.Container(
-    [navbar, dl.plugins.page_container],
+    [
+        navbar,
+        dl.plugins.page_container,
+        # html.Span(id="get-local-date-time", hidden=True),
+        dcc.Interval(id="interval-get-local-date-time", interval=1000),
+        # html.H1(id="local-date-time"),
+        # dcc.Interval(id="interval-local-date-time", interval=1000),
+    ],
     fluid=True,
     style={"font-size": "2vmin"},
+)
+
+app.clientside_callback(
+    """
+    function(n) {          
+        const date = new Date();
+        hour = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+        ampm = hour.split(' ')[1];
+        hour = String(hour.split(' ')[0]).padStart(2, '0');
+        minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
+        second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
+        month = date.toLocaleString('en-US', { month: 'short' });
+        dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
+        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(2, '0'));
+        year = date.toLocaleString('en-US', { year: 'numeric' });
+
+        hm = '<span style="font-size: 15em;">' + hour + ':' + minute + '</span>';
+        sm = '<span style="font-size: 10em;">:' + second + '</span>';
+        ampm ='<span style="font-size: 4em; margin-left: .25em;">' + ampm + '</span>';
+
+        dayofweek = '<span style="font-size: 10em; line-height: .5em;">' + dayofweek + '</span>';
+        month = '<span style="font-size: 10em; margin-left: .5em;">' + month + '</span>';
+        day = '<span style="font-size: 10em; margin-left: .5em;">' + day + '</span>';
+        year = '<span style="font-size: 5em; margin-left: .5em;">' + year + '</span>';
+
+        document.getElementById("clock").innerHTML = hm + sm + ampm + '<br/>' + 
+                                                     dayofweek + month + day + year;
+    }
+    """,
+    Output("clock", "children"),
+    Input("interval-get-local-date-time", "n_intervals"),
 )
 
 if __name__ == "__main__":
