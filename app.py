@@ -22,6 +22,8 @@ app = dash.Dash(
     ],
 )
 
+server = app.server
+
 navbar = dbc.NavbarSimple(
     dbc.DropdownMenu(
         [
@@ -44,7 +46,7 @@ app.layout = dbc.Container(
 )
 
 if __name__ == "__main__":
-    # app.run_server(debug=True, port=8000)
+    # app.run_server(debug=True)
     app.run_server(
         debug=False,
         dev_tools_ui=False,
