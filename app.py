@@ -22,8 +22,6 @@ app = dash.Dash(
     ],
 )
 
-app._favicon = ("assets/favicon.ico")
-
 navbar = dbc.NavbarSimple(
     dbc.DropdownMenu(
         [
