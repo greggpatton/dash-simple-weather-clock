@@ -20,7 +20,7 @@ import dash_bootstrap_components as dbc
 app = dash.Dash(
     __name__,
     plugins=[dl.plugins.pages],
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    external_stylesheets=[dbc.themes.DARKLY],
     meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
     ],
@@ -43,6 +43,7 @@ navbar = dbc.NavbarSimple(
     ),
     brand="Simple Weather Clock - Dash App",
     brand_href="/",
+    color="dark",
     dark=True,
     fluid=True,
 )
