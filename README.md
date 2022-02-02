@@ -1,8 +1,15 @@
-# dash-simple-weather-clock
-A simple weather clock written with Plotly Dash using the Visual Crossing Global Weather API
+# Simple Weather Clock
 
-[Plotly Dash](https://plotly.com/dash/)
+### A simple weather clock written with Python and [Plotly Dash](https://plotly.com/dash/).<br><br>
 
-[Visual Crossing Global Weather API](https://www.visualcrossing.com/weather-api)
+### I used the excellent [Visual Crossing Global Weather API](https://www.visualcrossing.com/weather-api) for the weather information.<br><br>
 
-Thanks to Adam and his excellent YouTube channel, [Charming Data](https://www.youtube.com/c/CharmingData/featured), for his very helpful Plotly Dash tutorials.
+### Thanks to Adam and his awesome YouTube channel, [Charming Data](https://www.youtube.com/c/CharmingData/featured), for his very helpful [Plotly Dash](https://plotly.com/dash/) tutorials.<br><br>
+
+### I deployed this app to Heroku if you would like to see it live. You will need to get your own free API key from [Visual Crossing](https://www.visualcrossing.com/weather-api) to use it.<br><br>
+
+### Enter your API key and a location then click or tap on the title to see the time and weather.<br><br>
+
+[Simple Weather Clock](https://simpleweatherclock.herokuapp.com/) at [Heroku](https://www.heroku.com/).
+
+[Source Code](https://github.com/greggpatton/dash-simple-weather-clock)

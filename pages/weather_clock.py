@@ -18,9 +18,6 @@ dash.register_page(__name__, path="/")
 # https://community.plotly.com/t/display-correct-time-in-browsers-timezone/49789/2
 
 weather_api = ApiVisualCrossing()
-# weather_api_key = ''
-# with open('weather_api_key.txt', 'r') as file:
-#     weather_api_key = file.read().replace('\n', '')
 
 layout = dbc.Container(
     [
@@ -45,7 +42,6 @@ layout = dbc.Container(
                     ],
                     width={"size": 12, "offset": 0},
                     class_name="text-center",
-                    # style={"font-size": "1.9em", "padding-bottom": "1.5em"},
                 ),
             ],
             justify="center",
@@ -68,17 +64,10 @@ layout = dbc.Container(
                         "offset": 0,
                     },
                     class_name="text-center",
-                    # xs=12, sm=8, md=5, lg=6, xl=5
-                    # style={
-                    #     "font-size": "1em",
-                    #     "line-height": ".3em",
-                    # },
                 ),
             ],
             justify="center",
             align="start",
-            # align="baseline",
-            # class_name="g-0",
         ),
         dbc.Row(
             [
@@ -100,12 +89,7 @@ layout = dbc.Container(
             align="start",
         ),
     ],
-    # className="vh-100 d-flex align-items-center justify-content-center",
-    # className="vh-100 d-flex justify-content-center",
     fluid=False,
-    # style={"line-height": "7.5em"},
-    # style={"font-size": "1.4vmin"},
-    # style={"font-size": "1.75vmin", "line-height": "4.5em"},
 )
 
 
@@ -132,8 +116,6 @@ def update_weather(n):
                 f"{weather_api.get_resolved_address()}",
                 style={
                     "fontSize": "2em",
-                    # "line-height": ".3em",
-                    # "padding-top": "5em",
                     "padding-bottom": "10em",
                 },
             ),
@@ -144,13 +126,11 @@ def update_weather(n):
                     "fontSize": "10em",
                     "line-height": ".7em",
                 },
-                # className="text-nowrap",
             ),
             html.Span(
                 f"Feels : {weather_api.get_feels_like_temperature()}",
                 style={
                     "fontSize": "6em",
-                    # "line-height": ".4em",
                     "margin-left": ".5em",
                 },
             ),
@@ -174,24 +154,21 @@ def update_weather(n):
             html.Span(
                 f"Wind: {weather_api.get_wind_speed()}",
                 style={
-                    "fontSize": "7em",
-                    # "line-height": ".5em",
+                    "fontSize": "6em",
                 },
             ),
             html.Span(
                 f"Gusting: {weather_api.get_wind_gust()}",
                 style={
-                    "fontSize": "7em",
-                    # "line-height": ".5em",
-                    "margin-left": ".5em",
+                    "fontSize": "6em",
+                    "margin-left": ".25em",
                 },
             ),
             html.Span(
-                f"{weather_api.get_wind_direction()}",
+                f"from {weather_api.get_wind_direction()}",
                 style={
-                    "fontSize": "5em",
-                    # "line-height": ".5em",
-                    "margin-left": ".5em",
+                    "fontSize": "4vmin",
+                    "margin-left": ".25em",
                 },
             ),
         ]

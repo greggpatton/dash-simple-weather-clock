@@ -31,7 +31,7 @@ server = app.server
 navbar = dbc.NavbarSimple(
     dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem(page["name"], href=page["path"])
+            dbc.DropdownMenuItem(page["name"], href=page["path"], style={"font-size": "1.25rem"})
             for page in dash.page_registry.values()
             if page["module"] != "pages.not_found_404"
         ],
@@ -39,13 +39,14 @@ navbar = dbc.NavbarSimple(
         label="More Pages",
         # size="lg",
         align_end=True,
-        style={"font-size": "2em"},
+        style={"font-size": "1.25rem"},
     ),
-    brand="Simple Weather Clock - Dash App",
+    brand="Simple Weather Clock",
     brand_href="/",
     color="dark",
     dark=True,
-    fluid=True,
+    fluid=True,    
+    brand_style={"font-size": "3.75vmin"},
 )
 
 app.layout = dbc.Container(

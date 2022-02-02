@@ -1,13 +1,16 @@
 import datetime
 
-from dash import html, dcc, Input, Output, callback
 import dash
+
+from dash import html, dcc, Input, Output, callback
+
+import dash_bootstrap_components as dbc
 
 import flask
 
 import base64_utils as b64
 
-dash.register_page(__name__, path="/Settings")
+dash.register_page(__name__, path="/settings")
 
 API_COOKIE_KEY = "dash_simple_weather_clock_weather_api_cookie_key"
 LOCATION_COOKIE_KEY = "dash_simple_weather_clock_location"
@@ -17,58 +20,74 @@ LOCATION_COOKIE_KEY = "dash_simple_weather_clock_location"
 # https://stackoverflow.com/questions/26613435/python-flask-not-creating-cookie-when-setting-expiration
 # https://tedboy.github.io/flask/generated/generated/flask.Response.set_cookie.html
 
-layout = html.Div(
+layout = dbc.Container(
     [
-        html.Div(
+        dbc.Row(
             [
-                dcc.Link(
-                    "Visual Crossing Global Weather API",
-                    href="https://www.visualcrossing.com/weather-api",
-                    target="_blank",
+                dbc.Col(
+                    [
+                        dcc.Markdown(
+                            """
+                            #### Get your API key from Visual Crossing.
+                            ### [Visual Crossing Global Weather API](https://www.visualcrossing.com/weather-api)
+                            """
+                        ),
+                    ],
+                    width={"size": 12, "offset": 0},
                 ),
             ],
-            className="text-center",
+            justify="center",
             style={"font-size": "2em", "line-height": "2em"},
         ),
-        html.Div(
+        dbc.Row(
             [
-                html.H1(
-                    "Weather API Key: ",
-                    style={"line-height": "2em"},
-                ),
-                dcc.Input(
-                    id="input-weather-api-key",
-                    type="password",
-                    placeholder="Enter weather API key",
-                    debounce=True,
-                    autoComplete="on",
-                    size="50",
+                dbc.Col(
+                    [
+                        html.H1(
+                            "API Key: ",
+                            style={"line-height": "2em"},
+                        ),
+                        dbc.Input(
+                            id="input-weather-api-key",
+                            type="password",
+                            placeholder="Enter weather API key",
+                            debounce=True,
+                            autoComplete="on",
+                            size="50",
+                            class_name="input-lg",
+                        ),
+                    ],
+                    width={"size": 12, "offset": 0},
                 ),
             ],
             id="weather-api-key",
-            className="text-center",
+            justify="center",
         ),
-        html.Br(
-            style={"line-height": "2em"},
-        ),
-        html.Div(
+        dbc.Row(
             [
-                html.H1(
-                    "Location: ",
-                    style={"line-height": "2em"},
-                ),
-                dcc.Input(
-                    id="input-location",
-                    placeholder="Enter location",
-                    debounce=True,
-                    autoComplete="on",
-                    size="50",
+                dbc.Col(
+                    [
+                        html.H1(
+                            "Location: ",
+                            style={"line-height": "2em"},
+                        ),
+                        dbc.Input(
+                            id="input-location",
+                            placeholder="Enter location",
+                            debounce=True,
+                            autoComplete="on",
+                            size="50",
+                            class_name="input-lg",
+                        ),
+                    ],
+                    width={"size": 12, "offset": 0},
                 ),
             ],
             id="location",
-            className="text-center",
+            justify="center",
         ),
     ],
+    class_name="text-center",
 )
 
 
