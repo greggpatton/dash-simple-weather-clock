@@ -72,9 +72,9 @@ app.clientside_callback(
         minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
         second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
 
-        hm = '<span style="font-size: 15em;">' + hour + ':' + minute + '</span>';
-        sm = '<span style="font-size: 10em;">:' + second + '</span>';
-        ampm ='<span style="font-size: 4em; margin-left: .25em;">' + ampm + '</span>';
+        hm = '<span>' + hour + ':' + minute + '</span>';
+        sm = '<span style="font-size: .5em;">:' + second + '</span>';
+        ampm ='<span style="font-size: .1em; margin-left: .15em;">' + ampm + '</span>';
 
         document.getElementById("time").innerHTML = hm + sm + ampm;
     }
@@ -94,10 +94,10 @@ app.clientside_callback(
         dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
         day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(1, '0'));
 
-        dayofweek = '<span style="font-size: 10em;">' + dayofweek + '</span>';
-        month = '<span style="font-size: 10em; margin-left: .25em;">' + month + '</span>';
-        day = '<span style="font-size: 10em; margin-left: .25em;">' + day + '</span>';
-        year = '<span style="font-size: 6em; margin-left: .5em;">' + year + '</span>';
+        dayofweek = '<span">' + dayofweek + '</span>';
+        month = '<span style="font-size: 1em; margin-left: .25em;">' + month + '</span>';
+        day = '<span style="font-size: 1em; margin-left: .25em;">' + day + '</span>';
+        year = '<span style="font-size: .5em; margin-left: .5em;">' + year + '</span>';
 
         document.getElementById("date").innerHTML = dayofweek + month + day + year;
     }

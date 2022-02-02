@@ -34,33 +34,49 @@ layout = dbc.Container(
             [
                 dbc.Col(
                     [
-                        html.Div(id="time"),
+                        html.H1(
+                            id="time",
+                            style={
+                                "font-size": "25em", 
+                                "line-height": ".4em",
+                                "padding-top": ".1em",
+                                },
+                        ),
                     ],
-                    width={
-                        "size": 12, "offset": 0
-                    },
+                    width={"size": 12, "offset": 0},
                     class_name="text-center",
-                    style={"font-size": "1.75em", "padding-bottom": ".5em"},
+                    # style={"font-size": "1.9em", "padding-bottom": "1.5em"},
                 ),
             ],
             justify="center",
-            # align="start",
+            align="start",
         ),
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.Div(id="date"),
+                        html.H1(
+                            id="date",
+                            style={
+                                "font-size": "12em", 
+                                "line-height": ".3em",
+                                },
+                            ),
                     ],
                     width={
-                        "size": 12, "offset": 0,
+                        "size": 10,
+                        "offset": 0,
                     },
                     class_name="text-center",
                     # xs=12, sm=8, md=5, lg=6, xl=5
-                    style={"font-size": "1.4em"},
+                    # style={
+                    #     "font-size": "1em",
+                    #     "line-height": ".3em",
+                    # },
                 ),
             ],
             justify="center",
+            align="start",
             # align="baseline",
             # class_name="g-0",
         ),
@@ -81,24 +97,26 @@ layout = dbc.Container(
                 ),
             ],
             justify="center",
-            align="baseline",
+            align="start",
         ),
     ],
     # className="vh-100 d-flex align-items-center justify-content-center",
     # className="vh-100 d-flex justify-content-center",
     fluid=False,
-    style={"line-height": "7.5em"},
+    # style={"line-height": "7.5em"},
+    # style={"font-size": "1.4vmin"},
     # style={"font-size": "1.75vmin", "line-height": "4.5em"},
 )
 
 
 @callback(Output("vshift", "children"), Input("interval-update-vshift", "n_intervals"))
 def update_vshift(n):
-    vshift = round(random.uniform(4.5, 15), 1)
+    vshift = round(random.uniform(2, 14), 1)
     style = {"height": f"{vshift}em"}
     return [
         html.Div(style=style),
     ]
+
 
 @callback(
     Output("weather", "children"), Input("interval-update-weather", "n_intervals")
@@ -112,14 +130,19 @@ def update_weather(n):
         return [
             html.Span(
                 f"{weather_api.get_resolved_address()}",
-                style={"fontSize": "2em"},
+                style={
+                    "fontSize": "2em",
+                    # "line-height": ".3em",
+                    # "padding-top": "5em",
+                    "padding-bottom": "10em",
+                },
             ),
             html.Br(),
             html.Span(
                 f"Temp : {weather_api.get_temperature()}",
                 style={
                     "fontSize": "10em",
-                    # "line-height": ".4em",
+                    "line-height": ".7em",
                 },
                 # className="text-nowrap",
             ),
@@ -136,14 +159,14 @@ def update_weather(n):
                 f"High :  {weather_api.get_high_temperature()}",
                 style={
                     "fontSize": "6em",
-                    # "line-height": "1em",
+                    "line-height": ".75em",
                 },
             ),
             html.Span(
                 f"Low : {weather_api.get_low_temperature()}",
                 style={
                     "fontSize": "6em",
-                    # "line-height": "1em",
+                    "line-height": ".75em",
                     "margin-left": "1em",
                 },
             ),
