@@ -22,7 +22,7 @@ weather_api = ApiVisualCrossing()
 # with open('weather_api_key.txt', 'r') as file:
 #     weather_api_key = file.read().replace('\n', '')
 
-layout = html.Div(
+layout = dbc.Container(
     [
         html.Div(id="vshift", className="text-center"),
         dcc.Interval(
@@ -34,35 +34,35 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div(id="time", className="text-center"),
+                        html.Div(id="time"),
                     ],
                     width={
-                        "size": 12,
+                        "size": 12, "offset": 0
                     },
+                    class_name="text-center",
+                    style={"font-size": "1.75em", "padding-bottom": ".5em"},
                 ),
             ],
             justify="center",
+            # align="start",
         ),
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.Div(id="date", className="text-center"),
+                        html.Div(id="date"),
                     ],
                     width={
-                        "size": 12,
+                        "size": 12, "offset": 0,
                     },
-                ),
-                dbc.Col(
-                    [
-                        html.Div(id="year", className="text-center"),
-                    ],
-                    width={
-                        "size": 12,
-                    },
+                    class_name="text-center",
+                    # xs=12, sm=8, md=5, lg=6, xl=5
+                    style={"font-size": "1.4em"},
                 ),
             ],
             justify="center",
+            # align="baseline",
+            # class_name="g-0",
         ),
         dbc.Row(
             [
@@ -81,46 +81,24 @@ layout = html.Div(
                 ),
             ],
             justify="center",
+            align="baseline",
         ),
     ],
     # className="vh-100 d-flex align-items-center justify-content-center",
     # className="vh-100 d-flex justify-content-center",
-    style={"font-size": "1.75vmin", "line-height": "4.5em"},
+    fluid=False,
+    style={"line-height": "7.5em"},
+    # style={"font-size": "1.75vmin", "line-height": "4.5em"},
 )
 
 
 @callback(Output("vshift", "children"), Input("interval-update-vshift", "n_intervals"))
 def update_vshift(n):
-    vshift = round(random.uniform(3, 8), 1)
+    vshift = round(random.uniform(4.5, 15), 1)
     style = {"height": f"{vshift}em"}
     return [
         html.Div(style=style),
     ]
-
-
-# @callback(
-#     Output("clock", "children"), Input("interval-update-clock", "n_intervals")
-# )
-# def update_clock(n):
-#     return [
-#         html.Span(f'{strftime("%I:%M").lstrip("0")}', style={"fontSize": "15em"}),
-#         html.Span(f'{strftime(":%S")}', style={"fontSize": "10em"}),
-#         html.Span(
-#             f'{strftime("%p")}', style={"fontSize": "4em", "marginLeft": "0.25em"}
-#         ),
-#         html.Br(),
-#         html.Span(f'{strftime("%a")}', style={"fontSize": "10em", "line-height": ".5em"}),
-#         html.Span(
-#             f'{strftime("%b")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
-#         ),
-#         html.Span(
-#             f'{strftime("%d")}', style={"fontSize": "10em", "marginLeft": "0.5em"}
-#         ),
-#         html.Span(
-#             f'{strftime("%Y")}', style={"fontSize": "5em", "marginLeft": "0.5em"}
-#         ),
-#     ]
-
 
 @callback(
     Output("weather", "children"), Input("interval-update-weather", "n_intervals")
@@ -134,13 +112,13 @@ def update_weather(n):
         return [
             html.Span(
                 f"{weather_api.get_resolved_address()}",
-                style={"fontSize": "1em"},
+                style={"fontSize": "2em"},
             ),
             html.Br(),
             html.Span(
                 f"Temp : {weather_api.get_temperature()}",
                 style={
-                    "fontSize": "9em",
+                    "fontSize": "10em",
                     # "line-height": ".4em",
                 },
                 # className="text-nowrap",
@@ -148,7 +126,7 @@ def update_weather(n):
             html.Span(
                 f"Feels : {weather_api.get_feels_like_temperature()}",
                 style={
-                    "fontSize": "4em",
+                    "fontSize": "6em",
                     # "line-height": ".4em",
                     "margin-left": ".5em",
                 },
@@ -157,40 +135,40 @@ def update_weather(n):
             html.Span(
                 f"High :  {weather_api.get_high_temperature()}",
                 style={
-                    "fontSize": "3.5em",
+                    "fontSize": "6em",
                     # "line-height": "1em",
                 },
             ),
             html.Span(
                 f"Low : {weather_api.get_low_temperature()}",
                 style={
-                    "fontSize": "3.5em",
+                    "fontSize": "6em",
                     # "line-height": "1em",
                     "margin-left": "1em",
                 },
             ),
             html.Br(),
             html.Span(
-                f"Wind : {weather_api.get_wind_speed()}",
+                f"Wind: {weather_api.get_wind_speed()}",
                 style={
-                    "fontSize": "6em",
+                    "fontSize": "7em",
                     # "line-height": ".5em",
+                },
+            ),
+            html.Span(
+                f"Gusting: {weather_api.get_wind_gust()}",
+                style={
+                    "fontSize": "7em",
+                    # "line-height": ".5em",
+                    "margin-left": ".5em",
                 },
             ),
             html.Span(
                 f"{weather_api.get_wind_direction()}",
                 style={
-                    "fontSize": "6em",
+                    "fontSize": "5em",
                     # "line-height": ".5em",
-                    "margin-left": "1em",
-                },
-            ),
-            html.Span(
-                f"Gusting : {weather_api.get_wind_gust()}",
-                style={
-                    "fontSize": "6em",
-                    # "line-height": ".5em",
-                    "margin-left": "1em",
+                    "margin-left": ".5em",
                 },
             ),
         ]

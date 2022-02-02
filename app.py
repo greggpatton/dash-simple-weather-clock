@@ -37,10 +37,14 @@ navbar = dbc.NavbarSimple(
         ],
         nav=True,
         label="More Pages",
+        # size="lg",
+        align_end=True,
+        style={"font-size": "2em"},
     ),
-    brand="Simple Weather Clock - Plotly Dash App",
+    brand="Simple Weather Clock - Dash App",
     brand_href="/",
     dark=True,
+    fluid=True,
 )
 
 app.layout = dbc.Container(
@@ -50,7 +54,6 @@ app.layout = dbc.Container(
         # html.Span(id="get-local-date-time", hidden=True),
         dcc.Interval(id="interval-get-local-time", interval=1000),
         dcc.Interval(id="interval-get-local-date", interval=1000),
-        dcc.Interval(id="interval-get-local-year", interval=1000),
         # html.H1(id="local-date-time"),
         # dcc.Interval(id="interval-local-date-time", interval=1000),
     ],
@@ -83,34 +86,23 @@ app.clientside_callback(
     """
     function(n) {          
         const date = new Date();
+
+        year = date.toLocaleString('en-US', { year: 'numeric' });
+
         month = date.toLocaleString('en-US', { month: 'short' });
         dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
-        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(2, '0'));
+        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(1, '0'));
 
         dayofweek = '<span style="font-size: 10em;">' + dayofweek + '</span>';
-        month = '<span style="font-size: 10em; margin-left: .5em;">' + month + '</span>';
-        day = '<span style="font-size: 10em; margin-left: .5em;">' + day + '</span>';
+        month = '<span style="font-size: 10em; margin-left: .25em;">' + month + '</span>';
+        day = '<span style="font-size: 10em; margin-left: .25em;">' + day + '</span>';
+        year = '<span style="font-size: 6em; margin-left: .5em;">' + year + '</span>';
 
-        document.getElementById("date").innerHTML = dayofweek + month + day;
+        document.getElementById("date").innerHTML = dayofweek + month + day + year;
     }
     """,
     Output("date", "children"),
     Input("interval-get-local-date", "n_intervals"),
-)
-
-app.clientside_callback(
-    """
-    function(n) {          
-        const date = new Date();
-        year = date.toLocaleString('en-US', { year: 'numeric' });
-
-        year = '<span style="font-size: 5em; text-align:center; margin-left: .5em;">' + year + '</span>';
-
-        document.getElementById("year").innerHTML = year;
-    }
-    """,
-    Output("year", "children"),
-    Input("interval-get-local-year", "n_intervals"),
 )
 
 
