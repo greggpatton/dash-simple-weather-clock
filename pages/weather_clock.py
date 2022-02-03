@@ -1,4 +1,3 @@
-import random
 from time import strftime
 
 import dash
@@ -21,7 +20,9 @@ weather_api = ApiVisualCrossing()
 
 layout = dbc.Container(
     [
-        html.Div(id="vshift", className="text-center"),
+        dcc.Interval(id="interval-get-local-time", interval=1000),
+        dcc.Interval(id="interval-get-local-date", interval=1000),
+        html.Div(id="vertical-shift", className="text-center"),
         dcc.Interval(
             id="interval-update-vshift",
             interval=10 * 1000,
@@ -91,16 +92,6 @@ layout = dbc.Container(
     ],
     fluid=False,
 )
-
-
-@callback(Output("vshift", "children"), Input("interval-update-vshift", "n_intervals"))
-def update_vshift(n):
-    vshift = round(random.uniform(2, 14), 1)
-    style = {"height": f"{vshift}em"}
-    return [
-        html.Div(style=style),
-    ]
-
 
 @callback(
     Output("weather", "children"), Input("interval-update-weather", "n_intervals")

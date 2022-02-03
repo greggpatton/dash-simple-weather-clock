@@ -29,7 +29,9 @@ server = app.server
 navbar = dbc.NavbarSimple(
     dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem(page["name"], href=page["path"], style={"font-size": "1.25rem"})
+            dbc.DropdownMenuItem(
+                page["name"], href=page["path"], style={"font-size": "1.25rem"}
+            )
             for page in dash.page_registry.values()
             if page["module"] != "pages.not_found_404"
         ],
@@ -42,7 +44,7 @@ navbar = dbc.NavbarSimple(
     brand_href="/",
     color="dark",
     dark=True,
-    fluid=True,    
+    fluid=True,
     brand_style={"font-size": "3.75vmin"},
 )
 
@@ -50,12 +52,27 @@ app.layout = dbc.Container(
     [
         navbar,
         dl.plugins.page_container,
-        dcc.Interval(id="interval-get-local-time", interval=1000),
-        dcc.Interval(id="interval-get-local-date", interval=1000),        
         dcc.Location(id="redirect-to-location"),
     ],
     fluid=True,
     style={"font-size": "1vmin"},
+)
+
+app.clientside_callback(
+    """
+    function(n) {          
+        const min = 2
+        const max = 14
+        
+        const vshift = Math.random() * (max - min) + min;
+
+        div = '<div style="height:' + vshift + 'em;"/>';
+
+        document.getElementById("vertical-shift").innerHTML = div;
+    }
+    """,
+    Output("vertical-shift", "children"),
+    Input("interval-update-vshift", "n_intervals"),
 )
 
 app.clientside_callback(
@@ -66,7 +83,7 @@ app.clientside_callback(
     }
     """,
     Output("redirect-to-location", "href"),
-    Input("interval-send-to-readme", "n_intervals"),
+    Input("interval-send-to-github-readme", "n_intervals"),
 )
 
 app.clientside_callback(
