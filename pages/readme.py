@@ -27,5 +27,4 @@ layout = dbc.Container(
             style={"font-size": "2em", "line-height": "2em"},
         ),
     ],
-    class_name="text-center",
 )
