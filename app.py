@@ -1,5 +1,3 @@
-from time import strftime
-
 import dash
 from dash import dcc, Input, Output
 
@@ -61,17 +59,15 @@ app.layout = dbc.Container(
 app.clientside_callback(
     """
     function(n) {          
-        const min = 2
-        const max = 14
+        const min = 0
+        const max = 15
         
-        const vshift = Math.random() * (max - min) + min;
+        var vshift = Math.random() * (max - min) + min;
 
-        div = '<div style="height:' + vshift + 'em;"/>';
-
-        document.getElementById("vertical-shift").innerHTML = div;
+        return {'height' : vshift + 'em'};
     }
     """,
-    Output("vertical-shift", "children"),
+    Output("vertical-shift", "style"),
     Input("interval-update-vshift", "n_intervals"),
 )
 
@@ -96,14 +92,14 @@ app.clientside_callback(
         minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
         second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
 
-        hm = '<span>' + hour + ':' + minute + '</span>';
-        sm = '<span style="font-size: .5em;">:' + second + '</span>';
-        ampm ='<span style="font-size: .1em; margin-left: .15em;">' + ampm + '</span>';
-
-        document.getElementById("time").innerHTML = hm + sm + ampm;
+        return [(hour + ':' + minute), (':' + second), ampm];
     }
     """,
-    Output("time", "children"),
+    [
+        Output("time-hours-minutes", "children"),
+        Output("time-seconds", "children"),
+        Output("time-ampm", "children"),
+    ],
     Input("interval-get-local-time", "n_intervals"),
 )
 
@@ -118,15 +114,13 @@ app.clientside_callback(
         dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
         day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(1, '0'));
 
-        dayofweek = '<span">' + dayofweek + '</span>';
-        month = '<span style="font-size: 1em; margin-left: .25em;">' + month + '</span>';
-        day = '<span style="font-size: 1em; margin-left: .25em;">' + day + '</span>';
-        year = '<span style="font-size: .5em; margin-left: .5em;">' + year + '</span>';
-
-        document.getElementById("date").innerHTML = dayofweek + month + day + year;
+        return [(dayofweek + ' ' + month + ' ' + day), year];
     }
     """,
-    Output("date", "children"),
+    [
+        Output("date-dayofweek-month-day", "children"),
+        Output("date-year", "children"),
+    ],
     Input("interval-get-local-date", "n_intervals"),
 )
 

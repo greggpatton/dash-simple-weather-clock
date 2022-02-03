@@ -9,7 +9,7 @@ from api_visualcrossing import ApiVisualCrossing
 
 import pages.settings as settings
 
-dash.register_page(__name__, path="/", name='Weather Clock', order=1)
+dash.register_page(__name__, path="/", name="Weather Clock", order=1)
 
 # https://github.com/plotly/dash-recipes/blob/707c225a15f6903bb0079b986e3df0516504d38e/dash_requests.py#L6
 # https://stackoverflow.com/questions/47945841/how-to-access-a-cookie-from-callback-function-in-dash-by-plotly
@@ -32,43 +32,63 @@ layout = dbc.Container(
             [
                 dbc.Col(
                     [
-                        html.H1(
-                            id="time",
+                        html.Span(
+                            id="time-hours-minutes",
                             style={
-                                "font-size": "25em", 
-                                "line-height": ".4em",
-                                "padding-top": ".1em",
-                                },
+                                "font-size": "25em",
+                            },
+                        ),
+                        html.Span(
+                            id="time-seconds",
+                            style={
+                                "font-size": "15em",
+                            },
+                        ),
+                        html.Span(
+                            id="time-ampm",
+                            style={
+                                "font-size": "5em",
+                                "margin-left": ".25em",
+                            },
                         ),
                     ],
-                    width={"size": 12, "offset": 0},
                     class_name="text-center",
                 ),
             ],
             justify="center",
             align="start",
+            style={
+                "line-height": "7.5em",
+                "padding-top": "5em",
+            },
         ),
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.H1(
-                            id="date",
+                        html.Span(
+                            id="date-dayofweek-month-day",
                             style={
-                                "font-size": "12em", 
-                                "line-height": ".3em",
-                                },
-                            ),
+                                "font-size": "12em",
+                            },
+                        ),
+                        html.Span(
+                            id="date-year",
+                            style={
+                                "font-size": "5em",
+                                "margin-left": ".5em",
+                            },
+                        ),
                     ],
-                    width={
-                        "size": 10,
-                        "offset": 0,
-                    },
                     class_name="text-center",
                 ),
             ],
             justify="center",
             align="start",
+            style={
+                "line-height": "6em",
+                "padding-top": ".75em",
+            },
         ),
         dbc.Row(
             [
@@ -77,8 +97,8 @@ layout = dbc.Container(
                         html.Div(id="weather", className="text-center"),
                         dcc.Interval(
                             id="interval-update-weather",
-                            interval=600 * 1000,
-                            n_intervals=0,  # in milliseconds
+                            interval=600 * 1000, # every 10 minutes
+                            n_intervals=0,
                         ),
                     ],
                     width={
@@ -92,6 +112,7 @@ layout = dbc.Container(
     ],
     fluid=False,
 )
+
 
 @callback(
     Output("weather", "children"), Input("interval-update-weather", "n_intervals")
@@ -107,7 +128,7 @@ def update_weather(n):
                 f"{weather_api.get_resolved_address()}",
                 style={
                     "fontSize": "2em",
-                    "padding-bottom": "10em",
+                    "line-height": "2em",
                 },
             ),
             html.Br(),
