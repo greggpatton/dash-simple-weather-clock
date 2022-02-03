@@ -1,9 +1,7 @@
 from time import strftime
 
-import flask
-
 import dash
-from dash import html, dcc, Input, Output
+from dash import dcc, Input, Output
 
 import dash_labs as dl
 
@@ -37,7 +35,6 @@ navbar = dbc.NavbarSimple(
         ],
         nav=True,
         label="More Pages",
-        # size="lg",
         align_end=True,
         style={"font-size": "1.25rem"},
     ),
@@ -53,14 +50,23 @@ app.layout = dbc.Container(
     [
         navbar,
         dl.plugins.page_container,
-        # html.Span(id="get-local-date-time", hidden=True),
         dcc.Interval(id="interval-get-local-time", interval=1000),
-        dcc.Interval(id="interval-get-local-date", interval=1000),
-        # html.H1(id="local-date-time"),
-        # dcc.Interval(id="interval-local-date-time", interval=1000),
+        dcc.Interval(id="interval-get-local-date", interval=1000),        
+        dcc.Location(id="redirect-to-location"),
     ],
     fluid=True,
     style={"font-size": "1vmin"},
+)
+
+app.clientside_callback(
+    """
+    function(n) {          
+        window.open("https://github.com/greggpatton/dash-simple-weather-clock#simple-weather-clock");
+        return "/";
+    }
+    """,
+    Output("redirect-to-location", "href"),
+    Input("interval-send-to-readme", "n_intervals"),
 )
 
 app.clientside_callback(

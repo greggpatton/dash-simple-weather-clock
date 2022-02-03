@@ -10,7 +10,7 @@ import flask
 
 import base64_utils as b64
 
-dash.register_page(__name__, path="/settings")
+dash.register_page(__name__, path="/settings", order=2)
 
 API_COOKIE_KEY = "dash_simple_weather_clock_weather_api_cookie_key"
 LOCATION_COOKIE_KEY = "dash_simple_weather_clock_location"
@@ -28,9 +28,14 @@ layout = dbc.Container(
                     [
                         dcc.Markdown(
                             """
-                            #### Get your API key from Visual Crossing.
-                            ### [Visual Crossing Global Weather API](https://www.visualcrossing.com/weather-api)
+                            #### Get your free API key from Visual Crossing.
                             """
+                        ),
+                        dcc.Link(
+                            "Visual Crossing Global Weather API",
+                            href="https://www.visualcrossing.com/weather-api",
+                            target="_blank",
+                            style={"font-size": "2em"},
                         ),
                     ],
                     width={"size": 12, "offset": 0},

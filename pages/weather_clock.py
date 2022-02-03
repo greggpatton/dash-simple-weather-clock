@@ -10,7 +10,7 @@ from api_visualcrossing import ApiVisualCrossing
 
 import pages.settings as settings
 
-dash.register_page(__name__, path="/")
+dash.register_page(__name__, path="/", name='Weather Clock', order=1)
 
 # https://github.com/plotly/dash-recipes/blob/707c225a15f6903bb0079b986e3df0516504d38e/dash_requests.py#L6
 # https://stackoverflow.com/questions/47945841/how-to-access-a-cookie-from-callback-function-in-dash-by-plotly
