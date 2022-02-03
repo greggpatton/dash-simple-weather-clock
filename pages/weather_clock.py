@@ -122,13 +122,21 @@ def update_weather(n):
     weather_api_key = settings.get_weather_api_key()
 
     if location and weather_api_key:
-        weather_api.refresh(location, weather_api_key)
+        weather_api.refresh(location, weather_api_key, settings.get_data_units())
         return [
             html.Span(
                 f"{weather_api.get_resolved_address()}",
                 style={
                     "fontSize": "2em",
                     "line-height": "2em",
+                },
+            ),
+            html.Span(
+                f"{settings.get_data_units_label()}",
+                style={
+                    "fontSize": "2em",
+                    "line-height": "2em",
+                    "margin-left": ".75em",
                 },
             ),
             html.Br(),

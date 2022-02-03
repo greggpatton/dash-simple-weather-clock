@@ -40,11 +40,11 @@ class ApiVisualCrossing:
     def __init__(self):
         self.data = None
 
-    def refresh(self, location="", api_key=""):
+    def refresh(self, location="", api_key="", data_units="metric"):
         url = (
             f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
             f"{location}/today"
-            "?unitGroup=us"
+            f"?unitGroup={data_units}"
             f"&key={api_key}"
             "&include=fcst%2Ccurrent"
         )
