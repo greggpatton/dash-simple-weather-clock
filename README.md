@@ -17,4 +17,5 @@
 
 ### Enter your API key and a location then click or tap on the title to see the time and weather.
 <br>
+
 [Simple Weather Clock](https://simpleweatherclock.herokuapp.com/) at [Heroku](https://www.heroku.com/).
