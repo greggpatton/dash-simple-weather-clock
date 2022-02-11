@@ -1,5 +1,5 @@
 import dash
-from dash import dcc, Input, Output
+from dash import dcc, Input, Output, clientside_callback
 
 import dash_labs as dl
 
@@ -56,22 +56,7 @@ app.layout = dbc.Container(
     style={"font-size": "1vmin"},
 )
 
-app.clientside_callback(
-    """
-    function(n) {          
-        const min = 0
-        const max = 15
-        
-        var vshift = Math.random() * (max - min) + min;
-
-        return {'height' : vshift + 'em'};
-    }
-    """,
-    Output("vertical-shift", "style"),
-    Input("interval-update-vshift", "n_intervals"),
-)
-
-app.clientside_callback(
+clientside_callback(
     """
     function(n) {          
         window.open("https://github.com/greggpatton/dash-simple-weather-clock#simple-weather-clock");
@@ -82,53 +67,11 @@ app.clientside_callback(
     Input("interval-send-to-github-readme", "n_intervals"),
 )
 
-app.clientside_callback(
-    """
-    function(n) {          
-        const date = new Date();
-        hour = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
-        ampm = hour.split(' ')[1];
-        hour = String(hour.split(' ')[0]);
-        minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
-        second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
-
-        return [(hour + ':' + minute), (':' + second), ampm];
-    }
-    """,
-    [
-        Output("time-hours-minutes", "children"),
-        Output("time-seconds", "children"),
-        Output("time-ampm", "children"),
-    ],
-    Input("interval-get-local-time", "n_intervals"),
-)
-
-app.clientside_callback(
-    """
-    function(n) {          
-        const date = new Date();
-
-        year = date.toLocaleString('en-US', { year: 'numeric' });
-
-        month = date.toLocaleString('en-US', { month: 'short' });
-        dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
-        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(1, '0'));
-
-        return [(dayofweek + ' ' + month + ' ' + day), year];
-    }
-    """,
-    [
-        Output("date-dayofweek-month-day", "children"),
-        Output("date-year", "children"),
-    ],
-    Input("interval-get-local-date", "n_intervals"),
-)
-
 
 if __name__ == "__main__":
-    # app.run_server(debug=True)
-    app.run_server(
-        debug=False,
-        dev_tools_ui=False,
-        dev_tools_silence_routes_logging=True,
-    )
+    app.run_server(debug=True)
+    # app.run_server(
+    #     debug=False,
+    #     dev_tools_ui=False,
+    #     dev_tools_silence_routes_logging=True,
+    # )

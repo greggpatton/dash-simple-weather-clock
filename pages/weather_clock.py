@@ -1,7 +1,7 @@
 from time import strftime
 
 import dash
-from dash import dcc, html, Input, Output, callback
+from dash import dcc, html, Input, Output, callback, clientside_callback
 
 import dash_bootstrap_components as dbc
 
@@ -194,3 +194,62 @@ def update_weather(n):
         ]
     else:
         return dcc.Location(pathname="/Settings", id="location-settings")
+
+clientside_callback(
+    """
+    function(n) {          
+        const min = 0
+        const max = 15
+        
+        var vshift = Math.random() * (max - min) + min;
+
+        return {'height' : vshift + 'em'};
+    }
+    """,
+    Output("vertical-shift", "style"),
+    Input("interval-update-vshift", "n_intervals"),
+)
+
+
+clientside_callback(
+    """
+    function(n) {          
+        const date = new Date();
+        hour = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+        ampm = hour.split(' ')[1];
+        hour = String(hour.split(' ')[0]);
+        minute = String(date.toLocaleTimeString('en-US', { minute: 'numeric' })).padStart(2, '0');
+        second = String(date.toLocaleTimeString('en-US', { second: 'numeric' }).padStart(2, '0'));
+
+        return [(hour + ':' + minute), (':' + second), ampm];
+    }
+    """,
+    [
+        Output("time-hours-minutes", "children"),
+        Output("time-seconds", "children"),
+        Output("time-ampm", "children"),
+    ],
+    Input("interval-get-local-time", "n_intervals"),
+)
+
+clientside_callback(
+    """
+    function(n) {          
+        const date = new Date();
+
+        year = date.toLocaleString('en-US', { year: 'numeric' });
+
+        month = date.toLocaleString('en-US', { month: 'short' });
+        dayofweek = date.toLocaleString('en-US', { weekday: 'short' });
+        day = String(date.toLocaleString('en-US', { day: 'numeric' }).padStart(1, '0'));
+
+        return [(dayofweek + ' ' + month + ' ' + day), year];
+    }
+    """,
+    [
+        Output("date-dayofweek-month-day", "children"),
+        Output("date-year", "children"),
+    ],
+    Input("interval-get-local-date", "n_intervals"),
+)
+
